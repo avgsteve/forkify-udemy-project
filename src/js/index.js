@@ -4,4 +4,7 @@
 
 import test from './test'; // no need to specify .js extension
 
-console.log(`Import test for: ${test}`);
+const x = 23;
+
+console.log(`For import test from test.js : ${test}.  For babel test, variable x is ${x}`);
+//npm run dev

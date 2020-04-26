@@ -1,0 +1,31 @@
+1. Topics related to the latest way of installing babel and the config that should be applied for Babel packages
+
+==Topic:  New Config if you are seeing errors on Babel configuration ==
+ref:  https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/9939874#questions/8854630
+
+solution:
+npm install --save-dev @babel/core @babel/preset-env
+npm install --save-dev babel-loader
+
+
+== Topic: [SOLVED] .babelrc not recognized ==
+ref:  https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/9939874#questions/10269904
+
+
+Solution:
+in .babelrc file
+
+    {
+         "presets": [
+             ["@babel/preset-env", {
+                 "useBuiltIns": "usage",
+                 "corejs": "3",
+                 "targets": {
+                     "browsers": [
+                         "last 5 versions",
+                         "ie >= 8"
+                     ]
+                 }
+             }]
+         ]
+     }
