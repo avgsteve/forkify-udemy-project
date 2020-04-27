@@ -1,20 +1,41 @@
 // Global app controller
-/*jshint esversion: 6 */
+/*jshint esversion: 6 */ //
+/*jshint esversion: 8 */
+import axios from 'axios'; //import from axios package instead of using fetch.
 
-import string from './models/Search'; // string is just an arbitrary word for the imported String
+async function getResult(query) {
+  //add ${proxy} prefix before API url if needed
+  const proxy = 'https://cors-anywhere.herokuapp.com/';
+  //no key need for forkify-api.herokuapp.com
+  const key = '';
+  try {
+    //axios will return json data as Object and no need to convert data to with .json() in advance
+    const res = await axios(`https://forkify-api.herokuapp.com/api/search?&q=${query}`);
+    // console.log(res); // will return data obj with property "status: 200";
+    const recipes = res.data.recipes;
+    console.log(recipes);
+  } catch (error) {
+    console.log(error);
+    alert(error);
+  }
 
-// import {
-//   add as addFunc, // or just simply add
-//   multiply as multiplyFunc,
-//   ID
-// } from './views/searchView';
+}
+getResult('pizza');
 
-// console.log(`Using imported functions!! ${addFunc(ID,2)} and ${multiplyFunc(3, 5)}. and the String is: ${string}`);
 
-// third way of importing all from other module(.js file)
-import * as searchView from './views/searchView';
 
-console.log(` (The third way) Using imported functions!! ${searchView.add(searchView.ID,2)} and ${searchView.multiply(3, 5)}. and the String is: ${searchView.ID} (throught " import * as ... method ")`);
+/*
+// Changes to the Project API
+// https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/16668826
+// http://forkify-api.herokuapp.com/
 
-// to see what type is this imported "searchView" object
-console.log(searchView);
+original:
+const res = await axios(`${PROXY}http://food2fork.com/api/search?key=${KEY}&q=${this.query}`);
+changes to:
+const res = await axios(`https://forkify-api.herokuapp.com/api/search?&q=${this.query}`);
+
+original:
+const res = await axios(`${PROXY}http://food2fork.com/api/get?key=${KEY}&rId=${this.id}`);
+changes to:
+const res = await axios(`https://forkify-api.herokuapp.com/api/get?rId=${this.id}`);
+*/
