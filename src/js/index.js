@@ -1,41 +1,7 @@
 // Global app controller
 /*jshint esversion: 6 */ //
 /*jshint esversion: 8 */
-import axios from 'axios'; //import from axios package instead of using fetch.
-
-async function getResult(query) {
-  //add ${proxy} prefix before API url if needed
-  const proxy = 'https://cors-anywhere.herokuapp.com/';
-  //no key need for forkify-api.herokuapp.com
-  const key = '';
-  try {
-    //axios will return json data as Object and no need to convert data to with .json() in advance
-    const res = await axios(`https://forkify-api.herokuapp.com/api/search?&q=${query}`);
-    // console.log(res); // will return data obj with property "status: 200";
-    const recipes = res.data.recipes;
-    console.log(recipes);
-  } catch (error) {
-    console.log(error);
-    alert(error);
-  }
-
-}
-getResult('pizza');
-
-
-
-/*
-// Changes to the Project API
-// https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/16668826
-// http://forkify-api.herokuapp.com/
-
-original:
-const res = await axios(`${PROXY}http://food2fork.com/api/search?key=${KEY}&q=${this.query}`);
-changes to:
-const res = await axios(`https://forkify-api.herokuapp.com/api/search?&q=${this.query}`);
-
-original:
-const res = await axios(`${PROXY}http://food2fork.com/api/get?key=${KEY}&rId=${this.id}`);
-changes to:
-const res = await axios(`https://forkify-api.herokuapp.com/api/get?rId=${this.id}`);
-*/
+import Search from './models/Search'; //move async function getResult(query) to models/Search.js
+const search = new Search('pizza');
+console.log(search);
+search.getResult();
