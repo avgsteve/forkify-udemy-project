@@ -20,11 +20,8 @@ export default class Search {
       // console.log(res); // will return data obj with property "status: 200";
       // assign query result to Object property
       this.result = res.data.recipes;
-      // == for testing and see what's the data in the file
-      // const recipes = res.data.recipes;
-      // console.log(recipes);
-      // == log the received data
-      // console.log(this.result);
+      // will have query result obj to property "result");
+      // result property will be array
     } catch (error) {
       alert(error);
     }
