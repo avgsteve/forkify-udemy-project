@@ -9,7 +9,7 @@ export default class Search {
   }
 
   //asynchronous method
-  async getResult() {
+  async getResults() {
     //add ${proxy} prefix before API url if needed
     const proxy = 'https://cors-anywhere.herokuapp.com/';
     //no key need for forkify-api.herokuapp.com
@@ -24,7 +24,7 @@ export default class Search {
       // const recipes = res.data.recipes;
       // console.log(recipes);
       // == log the received data
-      console.log(this.result);
+      // console.log(this.result);
     } catch (error) {
       alert(error);
     }
