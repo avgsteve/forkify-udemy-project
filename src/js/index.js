@@ -2,6 +2,10 @@
 /*jshint esversion: 6 */ //
 /*jshint esversion: 8 */
 import Search from './models/Search';
+import * as searchView from './views/searchView';
+import {
+  elements // elements is same as the obj name
+} from './views/base';
 /** Global state of the app
  * - Search object
  * - Current recipe object
@@ -12,8 +16,8 @@ const state = {};
 
 // the controlSearch is for addEventListener
 const controlSearch = async () => {
-  // 1. Get query from view (pizza is temp query string)
-  const query = 'pizza';
+  // 1. Get query value (string) from input field
+  const query = searchView.getInput();
 
   if (query) {
     // 2. New search obj (from new Search Class) and add it to state
@@ -30,7 +34,7 @@ const controlSearch = async () => {
   }
 };
 
-document.querySelector('.search').addEventListener('submit', objBtn => {
+elements.searchForm.addEventListener('submit', objBtn => {
   objBtn.preventDefault();
   controlSearch();
 });
