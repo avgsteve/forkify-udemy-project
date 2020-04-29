@@ -17,22 +17,13 @@ export const clearResults = () => elements.searchResultList.innerHTML = "";
 
 //limit words length and force a line break if too long
 const limitRecipeTitle = (title, limit = 17) => {
-  const newTitle = [];
-  //if title string array's length is greater than limit. If so, do following
   if (title.length > limit) {
-    //split the title and put seperately into array then cicle through array with reduce
-    title.split(' ').reduce((acc, current) => {
-      //if accumulated value plus current words' length value is greater than limit
-      if (acc + current.length <= limit) {
-        //then push current item to the newTitle array
-        newTitle.push(current);
-      }
-      //when the acc value is at or greater than limit, the true condition won't be executed and the returned value will be new accumulator
-      return acc + current.length;
-    }, 0);
+    let newTitle = title.split('').splice(0, limit);
 
-    // join the words in array return the result as STRING! (shorter than limit of words)
-    return `${newTitle.join(' ')} ...`;
+    // Return New title
+    return `${newTitle.join('')}...`;
+
+    // Return the title containing less than 17 letters
   }
   return title;
 }; // this function will be used as callback in template string for variable 'markup' (${limitRecipeTitle(recipe.title)})
