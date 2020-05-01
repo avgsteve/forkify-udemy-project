@@ -22,12 +22,12 @@ const limitRecipeTitle = (title, limit = 17) => {
   if (title.length > limit) {
     //split the title and put seperately into array then cicle through array with reduce
     title.split(' ').reduce((acc, current) => {
-      //if accumulated value plus current words' length value is greater than limit
+      //if accumulated value plus current words' length value is less than limit (17)
       if (acc + current.length <= limit) {
-        //then push current item to the newTitle array
+        //then we are allowed to push current item to the newTitle array
         newTitle.push(current);
       }
-      //when the acc value is at or greater than limit, the true condition won't be executed and the returned value will be new accumulator
+      //then the returned value will be the new value of "acc" for next reduce method operation
       return acc + current.length;
     }, 0);
 
