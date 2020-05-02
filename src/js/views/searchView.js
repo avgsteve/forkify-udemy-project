@@ -13,8 +13,12 @@ export const getInput = () => {
 export const clearInputField = () => elements.searchInput.value = "";
 
 //clear the results before making new query
-export const clearResults = () => elements.searchResultList.innerHTML = "";
+export const clearResults = () => {
+  elements.searchResultList.innerHTML = "";
+  //and clear the pages buttons before rendering new buttons as well
+  elements.searchResPages.innerHTML = "";
 
+};
 //limit words length and force a line break if too long
 const limitRecipeTitle = (title, limit = 17) => {
   const newTitle = [];
@@ -56,7 +60,51 @@ const renderRecipe = recipe => {
   //to render the HTML element to HTML file
 };
 
-export const renderResults = recipesArray => {
+//type: 'prev' or 'next' , will receive arguments from renderButtons();. And this arrow function will return template strings
+const createButton = (page, type) => `<button class="btn-inline results__btn--${type}" data-goto=${type === 'prev' ? page - 1 : page + 1}>
+    <span>Page ${type === 'prev' ? page - 1 : page + 1}</span>
+    <svg class="search__icon">
+        <use href="img/icons.svg#icon-triangle-${type === 'prev' ? 'left' : 'right'}"></use>
+    </svg>
+</button> `;
+
+//for displaying the page buttons for changing pages and will be called inside renderResults() and receive arguments from it.
+const renderButtons = (page, numberOfResults, resultsPerPage) => {
+  //total pages for results
+  const pages = Math.ceil(numberOfResults / resultsPerPage); // use Math.ceil to round up the page numbers to whole digits.
+
+  let button; // button variable will be assigned with the template string from createButton();
+  if (page === 1 && pages > 1) {
+    //only button to go to next page
+    button = createButton(page, 'next');
+
+  } else if (page < pages) {
+    //Both buttons
+    button = `
+        ${createButton(page, 'prev')}
+        ${createButton(page, 'next')}
+        `;
+  } else if (page === pages && pages > 1) {
+    // only button to go to previous page
+    button = createButton(page, 'prev');
+  }
+
+  console.log('renderButtons()裡面，透過其他程式取得的按鈕元素HTML code: ');
+  console.log(button);
+
+  // insert button element to searchResPages (.results__pages) as page buttons
+  elements.searchResPages.insertAdjacentHTML('afterbegin', button);
+};
+
+//arguments: page:page number, resultsPerPage(how many results per page)
+export const renderResults = (recipesArray, page = 1, resultsPerPage = 10) => {
+  // render result of current page
+  const start = (page - 1) * resultsPerPage; // (原本寫法是 const start = 1; 表示第一頁顯示 0 ~ 9 資料)
+  const end = (page * resultsPerPage); // slice(start, end) not include the end index
   //recipes has multiple recipe items to be iterated and rendered to HTML
-  recipesArray.forEach(renderRecipe);
+  // recipesArray.forEach(renderRecipe); //original method used to display all recipesArray
+  recipesArray.slice(start, end).forEach(renderRecipe);
+
+  //render pagination renderButtons
+  renderButtons(page, recipesArray.length, resultsPerPage);
 };

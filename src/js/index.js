@@ -51,6 +51,29 @@ elements.searchForm.addEventListener('submit', objBtn => {
   controlSearch();
 });
 
+//
+elements.searchResPages.addEventListener('click', eventObj => {
+  //target: 顯示觸發事件的 DOM element (以HTML code顯示)
+  const btn = eventObj.target.closest('.btn-inline');
+  console.log(`Event handler目前觸發的HTML元素: `);
+  console.log(btn);
+  //ref:  https://www.fooish.com/javascript/dom/event.html
+
+  if (btn) {
+    //讀取data attribute的value
+    const goToPage = parseInt(btn.dataset.goto, 10); //在.btn-inline元素裡面 讀取data-goto="xxx" 裡面數值 (xxx) , 該屬性是在view/searchView.js裡面的 createButton() 裡面所做的設定
+
+    //render新的recipe物件之前先清空.results__list目前已經有的內容
+    searchView.clearResults();
+
+    //renderResults = (recipesArray, page = 1, resultsPerPage = 10) , state.search.result 是 含有 recipe內容的Array
+    searchView.renderResults(state.search.result, goToPage);
+
+    //
+
+  }
+});
+
 /*
 //for testing
 const search = new Search('pizza');
