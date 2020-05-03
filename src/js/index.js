@@ -1,6 +1,7 @@
 // Global app controller
 /*jshint esversion: 6 */ //
 /*jshint esversion: 8 */
+/*jshint esversion: 10 */
 import Search from './models/Search';
 import Recipe from './models/Recipe';
 import * as searchView from './views/searchView';
@@ -26,7 +27,6 @@ const controlSearch = async () => {
   // 1. Get query value (string) from input field from web page then assign the value to variable
   const query = searchView.getInput();
 
-  //if the query string has been entered
   if (query) {
     // 2. Use query string to make new Search obj and assign the obj to state.search property
     state.search = new Search(query);
@@ -36,15 +36,18 @@ const controlSearch = async () => {
     searchView.clearResults(); //will remove rendered result before rendering new ones
     renderLoader(elements.searchRes); // elements.results is the parent element of .results__list
 
-    //4. Search for recipes from the recipe array stored in state obj (make it await because getResults is an async method)
-    await state.search.getResults();
+    try { //4. Search for recipes (displaying search results)
+      await state.search.getResults();
 
-    //5. Render results on UI //
-    // clear the loading spinner before the data rendered on page
-    clearLoader();
-    // (state.search.results is the recipe object contains many recipes)
-    searchView.renderResults(state.search.result);
-    //pass .result array into renderResults()
+      //5. Render results on UI //
+      clearLoader(); // clear the loading spinner befor new content is loaded
+      searchView.renderResults(state.search.result);
+      //call renderResults() and pass in the result array
+    } catch (error) {
+      alert('Something went wrong with the search...');
+      clearLoader(); //still clear the result
+    }
+
   }
 };
 
@@ -80,13 +83,58 @@ elements.searchResPages.addEventListener('click', eventObj => {
 /* *** Recipe CONTROLLER
        saving input and rendering the result (called by Event Listener)
 */
-const r = new Recipe(47746);
-r.getRecipe();
-console.log(r); // 顯示從API取回的資料內容
+const controlRecipe = async () => {
+  //window.location.hash的內容是string，所以用string的replace method將沒有hash，只有數字字串的string assign到 id
+  const id = window.location.hash.replace('#', ''); //replace hash with empty string
+
+  console.log(`\n==>>> the hash in URL has changed to : #${id}`);
+
+  if (id) {
+    // 1. Prepare UI for changes
+
+
+    // 2, Create new recipe object (and store it in state obj's recipe property)
+    state.recipe = new Recipe(id); //class from './models/Recipe';
+
+    //use try ... catch 用以處理例外情況
+    try {
+      // 3. Get recipe data (from the properties stored in state.recipe)
+      await state.recipe.getRecipe();
+      console.log('state.recipe裡面的內容:');
+      console.log(state.recipe);
+      // 4. Calculate servings and time
+      state.recipe.calcTime();
+      state.recipe.calcServings();
+
+      // 5. Render recipe
+
+
+    } catch (error) {
+      alert('Error processing recipe.');
+    }
+  }
+};
+
+/* ====>>>>> 啟用controlRecipe()的兩個時機
+// ==>>> when the URL is being changed
+window.addEventListener('hashchange', controlRecipe);
+// ==>>> when page is being loaded
+window.addEventListener('load', controlRecipe);
+*/
+//以上兩個Event listener可以改為以下寫法
+window.addEventListener('load', controlRecipe);
+['hashchange', ''].forEach(event => window.addEventListener(event, controlRecipe));
 
 
 /*
-//for testing
+// ===== for testing purpose ====
+
+/// Recipe CONTROLLER
+const r = new Recipe(47746);
+r.getRecipe();
+console.log(r); // 顯示從API取回的資料內容
+///
+
 const search = new Search('pizza');
 console.log(search);
 search.getResults(); // display retrived data

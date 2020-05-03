@@ -32,7 +32,7 @@ export default class Recipe {
   calcTime() {
     // 假設每三個材料(periods)花費15分鐘(* 15)
     const numberOfIngredients = this.ingredients.length;
-    const periods = Math.ceil(ingredients.length / 3);
+    const periods = Math.ceil(this.ingredients.length / 3);
     this.time = periods * 15;
   }
 
