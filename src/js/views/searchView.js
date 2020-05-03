@@ -96,7 +96,7 @@ const renderButtons = (page, numberOfResults, resultsPerPage) => {
   elements.searchResPages.insertAdjacentHTML('afterbegin', button);
 };
 
-//arguments: page:page number, resultsPerPage(how many results per page)
+//arguments===> page:page number, resultsPerPage(how many results per page)
 export const renderResults = (recipesArray, page = 1, resultsPerPage = 10) => {
   // render result of current page
   const start = (page - 1) * resultsPerPage; // (原本寫法是 const start = 1; 表示第一頁顯示 0 ~ 9 資料)

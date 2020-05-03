@@ -1,6 +1,10 @@
 /*jshint esversion: 6 */
 /*jshint esversion: 8 */
 import axios from 'axios'; //import from axios package instead of using fetch.
+import {
+  key,
+  proxy
+} from '../config';
 
 //build default search function (Constructor function)
 export default class Search {
@@ -13,7 +17,7 @@ export default class Search {
     //add ${proxy} prefix before API url if needed
     const proxy = 'https://cors-anywhere.herokuapp.com/';
     //no key need for forkify-api.herokuapp.com
-    const key = '';
+    const key = ''; // example for requiring data from server:  ..../api/search?key=${key}&q=${this.query}
     try {
       //axios will return json data as Object and no need to convert data to with .json() in advance
       const res = await axios(`https://forkify-api.herokuapp.com/api/search?&q=${this.query}`);

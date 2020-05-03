@@ -2,6 +2,7 @@
 /*jshint esversion: 6 */ //
 /*jshint esversion: 8 */
 import Search from './models/Search';
+import Recipe from './models/Recipe';
 import * as searchView from './views/searchView';
 import {
   elements, // elements is an obj for shorthand alias for querySelector
@@ -18,7 +19,9 @@ const state = { //for saving the data Object (Search object) from API
    */
 };
 
-// saving input and rendering the result (called by Event Listener)
+/* *** SEARCH CONTROLLER
+       saving input and rendering the result (called by Event Listener)
+*/
 const controlSearch = async () => {
   // 1. Get query value (string) from input field from web page then assign the value to variable
   const query = searchView.getInput();
@@ -73,6 +76,14 @@ elements.searchResPages.addEventListener('click', eventObj => {
 
   }
 });
+
+/* *** Recipe CONTROLLER
+       saving input and rendering the result (called by Event Listener)
+*/
+const r = new Recipe(47746);
+r.getRecipe();
+console.log(r); // 顯示從API取回的資料內容
+
 
 /*
 //for testing
