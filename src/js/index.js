@@ -26,7 +26,7 @@ const state = { //for saving the data Object (Search object) from API
 const controlSearch = async () => {
   // 1. Get query value (string) from input field from web page then assign the value to variable
   const query = searchView.getInput();
-
+  // const query = 'pizza'; // for testing
   if (query) {
     // 2. Use query string to make new Search obj and assign the obj to state.search property
     state.search = new Search(query);
@@ -50,8 +50,16 @@ const controlSearch = async () => {
 
   }
 };
-
+//executing SEARCH CONTROLLER
 elements.searchForm.addEventListener('submit', objBtn => {
+  objBtn.preventDefault();
+  //with preventDefault, page won't reload after btn is clicked
+  controlSearch();
+});
+
+
+//for TESTING，when page loads up, do controlSearch() & render search results directly without needing to submit from document.querySelector('.search')
+window.addEventListener('load', objBtn => {
   objBtn.preventDefault();
   //with preventDefault, page won't reload after btn is clicked
   controlSearch();
@@ -63,7 +71,7 @@ elements.searchResPages.addEventListener('click', eventObj => {
   const btn = eventObj.target.closest('.btn-inline');
   console.log(`Event handler目前觸發的HTML元素: `);
   console.log(btn);
-  //ref:  https://www.fooish.com/javascript/dom/event.html
+  //target.closest ref:  https://www.fooish.com/javascript/dom/event.html
 
   if (btn) {
     //讀取data attribute的value
@@ -95,22 +103,25 @@ const controlRecipe = async () => {
 
     // 2, Create new recipe object (and store it in state obj's recipe property)
     state.recipe = new Recipe(id); //class from './models/Recipe';
+    window.r = state.recipe; // 把 state裡面的.recipe 新增在window裡面，讓recipe的內容可以透漏在外部環境
 
     //use try ... catch 用以處理例外情況
     try {
-      // 3. Get recipe data (from the properties stored in state.recipe)
+      // 3. Get recipe data (from the properties stored in state.recipe) and parse ingredients
       await state.recipe.getRecipe();
       console.log('state.recipe裡面的內容:');
       console.log(state.recipe);
+      state.recipe.parseIngredients();
+
       // 4. Calculate servings and time
       state.recipe.calcTime();
       state.recipe.calcServings();
 
       // 5. Render recipe
 
-
     } catch (error) {
-      alert('Error processing recipe.');
+      console.log(error);
+      // alert('Error processing recipe.');
     }
   }
 };
@@ -122,8 +133,7 @@ window.addEventListener('hashchange', controlRecipe);
 window.addEventListener('load', controlRecipe);
 */
 //以上兩個Event listener可以改為以下寫法
-window.addEventListener('load', controlRecipe);
-['hashchange', ''].forEach(event => window.addEventListener(event, controlRecipe));
+['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
 
 
 /*
