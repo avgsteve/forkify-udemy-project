@@ -7,7 +7,6 @@ import {
   proxy
 } from '../config';
 
-
 export default class Recipe {
   constructor(id) {
     this.id = id;
@@ -57,7 +56,6 @@ export default class Recipe {
     //透過map將.ingredients裡每一個Array中的元素(材料)改成新的內容，新內容包括: 數量 qty, 單位 unit 和 材料 ingredient
     const newIngredients = this.ingredients.map(originalIngString => {
       // (newIngredients就是要透過map method裡面return出去包含了新內容的變數)
-
       // 1. ==== uniform all units by lowercasing all string====
       //// 先把array裡面原有的材料字串 (originalIngString) 轉成全部小寫的字串 ingStrLowerCase
       let ingStrLowerCase = originalIngString.toLowerCase();
@@ -94,12 +92,16 @@ export default class Recipe {
         // 5. 透過取出的數量字串Array，來運算數量
         let qty; // qty 變數表示數量，透過以下eval方法將數量字串處理後存至qty
 
+        if (qtyStrArray[0] === "") {
+          qty = 0.5;
+        }
         // if狀況1. : qtyStrArray 只有一個元素的時候
-        if (qtyStrArray.length === 1) {
+        else if (qtyStrArray.length === 1) {
           //透過eval()來運算例如 ["4+1/2"] 的字串
           qty = eval(ingredientArray[0].replace('-', '+')); //並且先把數量字串中的-號換成+號
 
           // if狀況2. : qtyStrArray 有多個元素的時候 (Array長度不等於1)
+
         } else {
           //先將每個元素透過+號結合( Array.join  )，接著eval()來運算例如 ["4+1/2"] 的字串
           qty = eval(ingredientArray.slice(0, unitIndex).join('+'));

@@ -98,6 +98,9 @@ const controlRecipe = async () => {
 
   console.log(`\n==>>> the hash in URL has changed to : #${id}`);
 
+  searchView.highlightSelected(id);
+
+
   if (id) {
     // 1. Prepare UI for changes
     recipeView.clearRecipe();

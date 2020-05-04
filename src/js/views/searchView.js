@@ -17,8 +17,18 @@ export const clearResults = () => {
   elements.searchResultList.innerHTML = "";
   //and clear the pages buttons before rendering new buttons as well
   elements.searchResPages.innerHTML = "";
-
 };
+
+// class="results__link--active" can highlight selected item in search result
+export const highlightSelected = id => {
+
+  const resultsArr = Array.from(document.querySelectorAll('.results__link'));
+  resultsArr.forEach(el => {
+    el.classList.remove('results__link--active');
+  });
+  document.querySelector(`a[href="#${id}"]`).classList.add('results__link--active');
+};
+
 //limit words length and force a line break if too long
 const limitRecipeTitle = (title, limit = 17) => {
   const newTitle = [];

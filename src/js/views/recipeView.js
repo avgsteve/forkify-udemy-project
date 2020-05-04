@@ -5,10 +5,24 @@
 import {
   elements, // document.querySelector('.recipe')
 } from './base';
+import Fraction from 'fraction.js';
+
 
 //to remove the content (recipe) before loading new one
 export const clearRecipe = () => {
   elements.recipe.innerHTML = '';
+};
+
+const formatQty = qty => {
+  //  https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/9939926#questions/4542590
+  //  https://github.com/infusion/Fraction.js/
+  if (qty) {
+    // qty = 2.5 --> 2 1/2
+    // qty = 0.5 --> 1/2
+    const num = new Fraction(qty).simplify(0.00001);
+    return num.toFraction(true);
+  }
+  return '?';
 };
 
 const createIngredient = ingredient => `
@@ -16,7 +30,7 @@ const createIngredient = ingredient => `
         <svg class="recipe__icon">
             <use href="img/icons.svg#icon-check"></use>
         </svg>
-        <div class="recipe__count">${ingredient.qty}</div>
+        <div class="recipe__count">${formatQty(ingredient.qty)}</div>
         <div class="recipe__ingredient">
             <span class="recipe__unit">${ingredient.unit}</span>
             ${ingredient.ingredient}
