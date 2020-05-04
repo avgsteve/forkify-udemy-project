@@ -81,7 +81,7 @@ export default class Recipe {
       // 4. ==== save qty, unit and ingredients in new obj ====
       let objIngredient; //宣告 objIngredient 做為準備儲存資料的空物件
 
-      // 5. == 透過unitIndex變數 (unit字串的狀態，是否存在)，來處理其他字串的內容 ==
+      // 4-1. == 透過unitIndex變數 (unit字串的狀態，是否存在)，來處理其他字串的內容 ==
 
       // unitIndex變數第一個狀況 ；當unit(單位)元素存在，且回傳值大於 -1 ，比如0, 1 , 2都表示單位元素在字串中的位置 (因為findIndex若是傳回-1表示不存在，)
       if (unitIndex > -1) {
@@ -91,7 +91,7 @@ export default class Recipe {
         // Ex. 4 1/2 cups, qtyStrArray is [4, 1/2] --> eval("4+1/2") --> 4.5
         // Ex. 4 cups, qtyStrArray is [4]
 
-        // 4-1-1. 透過取出的數量字串Array，來運算數量
+        // 5. 透過取出的數量字串Array，來運算數量
         let qty; // qty 變數表示數量，透過以下eval方法將數量字串處理後存至qty
 
         // if狀況1. : qtyStrArray 只有一個元素的時候
@@ -105,7 +105,7 @@ export default class Recipe {
           qty = eval(ingredientArray.slice(0, unitIndex).join('+'));
         }
 
-        // 4-2. == 將處理過的數量，單位和材料字串存進物件objIngredient中
+        // 6. == 將處理過的數量，單位和材料字串存進物件objIngredient中
         objIngredient = {
           qty: qty, //或是可以把   qty: qty, 寫成 qty, 就好
           unit: ingredientArray[unitIndex], //取得材料字串中，單位字串的位置
@@ -133,7 +133,7 @@ export default class Recipe {
         };
       }
 
-      //透過 this.ingredients.map 將 this.ingredients的Array每個 element 都存成新的內容。 (objIngredient物件)
+      // 7.透過 this.ingredients.map 將 this.ingredients的Array每個 element 都存成新的內容。 (objIngredient物件)
       return objIngredient;
     });
 

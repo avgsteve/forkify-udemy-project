@@ -5,6 +5,7 @@
 import Search from './models/Search';
 import Recipe from './models/Recipe';
 import * as searchView from './views/searchView';
+import * as recipeView from './views/recipeView';
 import {
   elements, // elements is an obj for shorthand alias for querySelector
   renderLoader, //for spinner HTML tag
@@ -99,7 +100,8 @@ const controlRecipe = async () => {
 
   if (id) {
     // 1. Prepare UI for changes
-
+    recipeView.clearRecipe();
+    renderLoader(elements.recipe); //pass in parent element of the item to be loaded (document.querySelector('.recipe'))
 
     // 2, Create new recipe object (and store it in state obj's recipe property)
     state.recipe = new Recipe(id); //class from './models/Recipe';
@@ -117,7 +119,9 @@ const controlRecipe = async () => {
       state.recipe.calcTime();
       state.recipe.calcServings();
 
-      // 5. Render recipe
+      // 5. Render recipe (with recipeView.js)
+      clearLoader();
+      recipeView.renderRecipe(state.recipe);
 
     } catch (error) {
       console.log(error);
