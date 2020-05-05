@@ -144,4 +144,18 @@ export default class Recipe {
 
     this.ingredients = newIngredients;
   }
+
+  //update recipe servings by clicking decrease or increase button in rendered recipe area
+  updateServerings(updateType) {
+    //Servings
+    const newServings = (updateType === 'dec' ? this.servings - 1 : this.servings + 1);
+
+    //Ingredients
+    this.ingredients.forEach(ing => {
+      ing.qty *= (newServings / this.servings); //this.servings is the old value
+    });
+
+    //Update servings property
+    this.servings = newServings;
+  }
 }

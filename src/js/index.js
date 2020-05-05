@@ -108,7 +108,7 @@ const controlRecipe = async () => {
 
     // 2, Create new recipe object (and store it in state obj's recipe property)
     state.recipe = new Recipe(id); //class from './models/Recipe';
-    window.r = state.recipe; // 把 state裡面的.recipe 新增在window裡面，讓recipe的內容可以透漏在外部環境
+    // window.r = state.recipe; // 把 state裡面的.recipe 新增在window裡面，讓recipe的內容可以透漏在外部環境
 
     //use try ... catch 用以處理例外情況
     try {
@@ -141,6 +141,31 @@ window.addEventListener('load', controlRecipe);
 */
 //以上兩個Event listener可以改為以下寫法
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
+
+//for updateServerings(updateType) from Recipe.js by clicking handling recipe buttons
+elements.recipe.addEventListener('click', clickedElement => {
+
+  if (clickedElement.target.matches('.btn-decrease, .btn-decrease *')) {
+
+    //in case the servings becomes 1
+    if (state.recipe.servings > 1) {
+      state.recipe.updateServerings('dec');
+      recipeView.updateServeringsIngredients(state.recipe);
+    }
+
+  } else if (clickedElement.target.matches('.btn-increase, .btn-increase *')) {
+    //
+    state.recipe.updateServerings('inc');
+    recipeView.updateServeringsIngredients(state.recipe);
+
+  }
+  // for Testing
+  // console.log(`== updated servings: ${state.recipe.servings}`);
+  // console.log(JSON.stringify(state.recipe.ingredients));
+  // === Update servings in recipe ingredient on webpage
+  recipeView.updateServeringsIngredients(state.recipe);
+});
+
 
 
 /*

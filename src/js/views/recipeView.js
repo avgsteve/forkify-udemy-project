@@ -62,12 +62,12 @@ export const renderRecipe = (recipe) => {
           <span class="recipe__info-text"> servings</span>
 
           <div class="recipe__info-buttons">
-              <button class="btn-tiny">
+              <button class="btn-tiny btn-decrease">
                   <svg>
                       <use href="img/icons.svg#icon-circle-with-minus"></use>
                   </svg>
               </button>
-              <button class="btn-tiny">
+              <button class="btn-tiny btn-increase">
                   <svg>
                       <use href="img/icons.svg#icon-circle-with-plus"></use>
                   </svg>
@@ -116,3 +116,24 @@ export const renderRecipe = (recipe) => {
   elements.recipe.insertAdjacentHTML('afterbegin', recipeMarkUp);
 
 };
+
+export const updateServeringsIngredients = (recipe) => {
+  //update the serving counts which was updated by Recipe.updateServerings(updateType) in index.js
+  document.querySelector('.recipe__info-data--people').textContent = recipe.servings;
+
+  //update ingredients in view , first get the DOM element
+  // const qtyElements = Array.from(document.querySelectorAll('.recipe__count'));
+  const qtyElements = document.querySelectorAll('.recipe__count');
+
+  //then write new textContent with the updated property (from passed-in state obj)
+  console.log(qtyElements);
+  qtyElements.forEach((element, index) => {
+    element.textContent = formatQty(recipe.ingredients[index].qty);
+  });
+
+
+};
+
+
+
+//
