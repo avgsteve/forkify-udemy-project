@@ -5,6 +5,7 @@
 import Search from './models/Search';
 import Recipe from './models/Recipe';
 import List from './models/List';
+import Likes from './models/Likes';
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
 import * as listView from './views/listView';
@@ -194,11 +195,48 @@ elements.shopping.addEventListener('click', e => {
   }
 
   console.log(state);
-
-
 });
 
+/* LIKEs CONTROLLER
+ */
 
+const controlLike = () => {
+  if (!state.likes) state.likes = new Likes();
+  const currentID = state.recipe.id;
+
+  //User has NOT yet like the current recipe
+  if (!state.likes.isLiked(currentID)) {
+    // Add like to the Likes.likes[] array
+    const newLike = state.likes.addLike(
+      currentID,
+      state.recipe.title,
+      state.recipe.author,
+      state.recipe.img,
+    );
+
+    // Toggle the like buttons
+
+
+    // Add like to UI list
+    console.log('Liked this recipe!: ');
+    console.log(state.likes);
+
+  } else {
+    // Remove like from the Likes.likes[] array
+    state.likes.deleteLike(currentID);
+    console.log('Un-Liked this recipe!: ');
+    console.log(state.likes);
+
+    // Toggle the like buttons
+
+
+    // Remove like to UI list
+
+
+  }
+
+
+};
 
 //for calling updateServerings(updateType) from Recipe.js by clicking handling recipe buttons
 elements.recipe.addEventListener('click', clickedElement => {
@@ -219,14 +257,18 @@ elements.recipe.addEventListener('click', clickedElement => {
     //adding recipe items to shopping list
   } else if (clickedElement.target.matches('.recipe__btn--add, .recipe__btn--add *')) {
     console.log('.recipe__btn--add matched!');
+    //Add ingredients to shopping list
     controlList();
+  } else if (clickedElement.target.matches('.recipe__love, .recipe__love *')) {
+    controlLike();
   }
-  // for Testing
-  // console.log(`== updated servings: ${state.recipe.servings}`);
-  // console.log(JSON.stringify(state.recipe.ingredients));
-  // === Update servings in recipe ingredient on webpage
-  recipeView.updateServeringsIngredients(state.recipe);
 });
+// for Testing
+// console.log(`== updated servings: ${state.recipe.servings}`);
+// console.log(JSON.stringify(state.recipe.ingredients));
+// === Update servings in recipe ingredient on webpage
+// recipeView.updateServeringsIngredients(state.recipe);
+// });
 
 
 /*
