@@ -5,7 +5,9 @@ export const elements = {
   searchRes: document.querySelector('.results'), // for HTML tag <div class="results"> (the parent of .results__list)
   searchResultList: document.querySelector('.results__list'), // add rendered markup to list
   searchResPages: document.querySelector('.results__pages'), // for displaying page buttons
-  recipe: document.querySelector('.recipe') // for displaying page buttons
+  recipe: document.querySelector('.recipe'), // for displaying page buttons
+  shopping: document.querySelector('.shopping__list'), // for displaying page buttons
+
 };
 
 export const elementStrings = {

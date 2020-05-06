@@ -26,9 +26,12 @@ export const highlightSelected = id => {
   resultsArr.forEach(el => {
     el.classList.remove('results__link--active');
   });
+  console.log('the id is:' + id);
+
+  const idToBeSelected = document.querySelector(`a[href*="${id}"]`);
+  idToBeSelected === null ? console.log('No item to be highlighted yet!') : idToBeSelected.classList.add('results__link--active');
 
 
-  document.querySelector(`[href*="#${id === null? "": id}"]`).classList.add('results__link--active');
 };
 
 //limit words length and force a line break if too long

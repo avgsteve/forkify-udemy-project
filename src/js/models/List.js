@@ -16,15 +16,16 @@ export default class List {
       ingredient,
     };
     this.items.push(item);
+    return item;
   }
 
   deleteItem(id) {
     //find out the index of every element has the prop id which matches the passed-in parameter (the value created by UniqueId(),)
-    const index = this.item.findIndex(el =>
+    const index = this.items.findIndex(el =>
       el.id === id);
 
     //then delete the item in the position with the index
-    this.item.splice(index, 1);
+    this.items.splice(index, 1);
   }
 
   updateQuantity(id, newQuantity) {

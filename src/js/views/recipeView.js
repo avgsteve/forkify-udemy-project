@@ -89,7 +89,7 @@ export const renderRecipe = (recipe) => {
           ${recipe.ingredients.map(element => createIngredient(element)).join('')}
       </ul>
 
-      <button class="btn-small recipe__btn">
+      <button class="btn-small recipe__btn recipe__btn--add">
           <svg class="search__icon">
               <use href="img/icons.svg#icon-shopping-cart"></use>
           </svg>
@@ -126,7 +126,6 @@ export const updateServeringsIngredients = (recipe) => {
   const qtyElements = document.querySelectorAll('.recipe__count');
 
   //then write new textContent with the updated property (from passed-in state obj)
-  console.log(qtyElements);
   qtyElements.forEach((element, index) => {
     element.textContent = formatQty(recipe.ingredients[index].qty);
   });

@@ -7,6 +7,8 @@ import Recipe from './models/Recipe';
 import List from './models/List';
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
+import * as listView from './views/listView';
+
 import {
   elements, // elements is an obj for shorthand alias for querySelector
   renderLoader, //for spinner HTML tag
@@ -27,8 +29,9 @@ const state = { //for saving the data Object (Search object) from API
 */
 const controlSearch = async () => {
   // 1. Get query value (string) from input field from web page then assign the value to variable
-  const query = searchView.getInput();
-  // const query = 'pizza'; // for testing
+  // const query = searchView.getInput();
+  const query = 'pizza'; // for testing
+
   if (query) {
     // 2. Use query string to make new Search obj and assign the obj to state.search property
     state.search = new Search(query);
@@ -65,6 +68,7 @@ window.addEventListener('load', objBtn => {
   objBtn.preventDefault();
   //with preventDefault, page won't reload after btn is clicked
   controlSearch();
+  window.state = state; //for testing
 });
 
 //
@@ -141,9 +145,62 @@ window.addEventListener('hashchange', controlRecipe);
 window.addEventListener('load', controlRecipe);
 */
 //以上兩個Event listener可以改為以下寫法
-['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
+// ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
 
-//for updateServerings(updateType) from Recipe.js by clicking handling recipe buttons
+window.addEventListener('hashchange', controlRecipe);
+
+/* === LIST CONTROLLER
+ */
+const controlList = () => {
+  // Create a new list if there is no one yet
+  if (!state.list) state.list = new List();
+
+  console.log(`global state: `);
+  console.log(state);
+
+  //Add new ingredients to the list
+  state.recipe.ingredients.forEach(el => {
+    //this code will addItem to state.list and also return the value to variable "item"
+    const item = state.list.addItem(el.qty, el.unit, el.ingredient);
+    //then render added item to listView as markup
+
+    listView.renderItem(item); //export const renderItem = (recipeObj) => {  const markup = `
+  });
+
+};
+
+// Set up the  event handles delete and update list item
+elements.shopping.addEventListener('click', e => {
+  const id = e.target.closest('.shopping__item').dataset.itemid;
+  console.log("itemid get!: " + id);
+
+  //Handle the delete button in shopping list
+  if (e.target.matches('.shopping__delete, .shopping__delete *')) {
+
+    // Delete data from this.state.
+    state.list.deleteItem(id);
+
+    // Delete item from UI
+    listView.deleteItem(id); //... => item.parent.removeChild(item);
+
+    //Handle the count update
+  } else if (e.target.matches('.shopping__count-value')) {
+    //getting the value from clicked value field
+    const value = parseFloat(e.target.value, 10);
+
+    //after getting the value, update the value in state.list property
+    state.list.updateQuantity(id, value);
+
+  }
+
+  console.log(state);
+
+
+});
+
+
+
+//for calling updateServerings(updateType) from Recipe.js by clicking handling recipe buttons
 elements.recipe.addEventListener('click', clickedElement => {
 
   if (clickedElement.target.matches('.btn-decrease, .btn-decrease *')) {
@@ -159,6 +216,10 @@ elements.recipe.addEventListener('click', clickedElement => {
     state.recipe.updateServerings('inc');
     recipeView.updateServeringsIngredients(state.recipe);
 
+    //adding recipe items to shopping list
+  } else if (clickedElement.target.matches('.recipe__btn--add, .recipe__btn--add *')) {
+    console.log('.recipe__btn--add matched!');
+    controlList();
   }
   // for Testing
   // console.log(`== updated servings: ${state.recipe.servings}`);
@@ -167,8 +228,6 @@ elements.recipe.addEventListener('click', clickedElement => {
   recipeView.updateServeringsIngredients(state.recipe);
 });
 
-//for testing new obj "l" and other methods in window context
-window.l = new List();
 
 /*
 // ===== for testing purpose ====
