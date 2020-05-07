@@ -28,14 +28,14 @@ export const highlightSelected = id => {
   });
   console.log('the id is:' + id);
 
-  const idToBeSelected = document.querySelector(`a[href*="${id}"]`);
+  const idToBeSelected = document.querySelector(`.results__link[href*="${id}"]`);
   idToBeSelected === null ? console.log('No item to be highlighted yet!') : idToBeSelected.classList.add('results__link--active');
 
 
 };
 
 //limit words length and force a line break if too long
-const limitRecipeTitle = (title, limit = 17) => {
+export const limitRecipeTitle = (title, limit = 17) => {
   const newTitle = [];
   //if title string array's length is greater than limit. If so, do following
   if (title.length > limit) {

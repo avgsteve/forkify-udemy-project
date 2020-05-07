@@ -7,7 +7,8 @@ export const elements = {
   searchResPages: document.querySelector('.results__pages'), // for displaying page buttons
   recipe: document.querySelector('.recipe'), // for displaying page buttons
   shopping: document.querySelector('.shopping__list'), // for displaying page buttons
-
+  likesMenu: document.querySelector('.likes__field'),
+  likesList: document.querySelector('.likes__list'),
 };
 
 export const elementStrings = {
