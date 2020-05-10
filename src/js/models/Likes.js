@@ -15,6 +15,10 @@ export default class Likes {
       image: image,
     };
     this.likes.push(like);
+
+    //Persist data in local storage (執行addLike()的時候順便把資料存進localstorage)
+    this.saveDataInLocalStorage();
+
     return like;
   }
 
@@ -33,6 +37,29 @@ export default class Likes {
 
   getTheNumberOfLikes() {
     return this.likes.length;
+  }
+
+  saveDataInLocalStorage() {
+    //還要先把this.likes的Array資料變成JSON之後再存進 localStorage
+    localStorage.setItem('likes', JSON.stringify(this.likes));
+    /* this.likes ==> the array of saved (pushed into) in the array
+      constructor() {
+        this.likes = [];
+      }
+      */
+  }
+
+  readDataInLocalStorage() {
+    //還要先把localStorage的 JSON 資料變成 Array string 之後再存進 this.likes
+    const likesDataInLS = JSON.parse(localStorage.getItem('likes'));
+
+    //如果likes資料不存在於localStorage, 會傳回null，要為true的時候再存回this.like
+    if (likesDataInLS) {
+      this.likes = likesDataInLS;
+    } else {
+      console.log('Error! 無likes資料存在於localStorage中!');
+    }
+
   }
 
 }

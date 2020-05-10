@@ -65,7 +65,7 @@ elements.searchForm.addEventListener('submit', objBtn => {
   controlSearch();
 });
 
-
+/*
 //for TESTING，when page loads up, do controlSearch() & render search results directly without needing to submit from document.querySelector('.search')
 window.addEventListener('load', objBtn => {
   objBtn.preventDefault();
@@ -73,6 +73,7 @@ window.addEventListener('load', objBtn => {
   controlSearch();
   window.state = state; //for testing
 });
+*/
 
 //
 elements.searchResPages.addEventListener('click', eventObj => {
@@ -205,7 +206,6 @@ elements.shopping.addEventListener('click', e => {
 /* LIKEs CONTROLLER
  */
 //make a global Likes() obj before rendering the recipe section which has the function checking is the recipe has been added to likes Array
-state.likes = new Likes();
 const controlLike = () => {
   if (!state.likes) state.likes = new Likes();
   const currentID = state.recipe.id;
@@ -246,6 +246,22 @@ const controlLike = () => {
   likeView.toggleLikeMenu(state.likes.getTheNumberOfLikes());
 
 };
+
+// Restore liked recipes on page load
+window.addEventListener('load', () => {
+  //create new Likes
+  state.likes = new Likes();
+
+  //read saved likes data from localStorage
+  state.likes.readDataInLocalStorage();
+
+  //
+  likeView.toggleLikeMenu(state.likes.getTheNumberOfLikes());
+
+  //
+  state.likes.likes.forEach(like => likeView.renderLikeMenu(like));
+});
+
 
 //for calling updateServerings(updateType) from Recipe.js by clicking handling recipe buttons
 elements.recipe.addEventListener('click', clickedElement => {
