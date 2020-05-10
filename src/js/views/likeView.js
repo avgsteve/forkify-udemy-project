@@ -19,7 +19,7 @@ export const toggleLikeBtn = isLiked => {
 
   const iconString = isLiked ? `icon-heart` : `icon-heart-outlined`;
   //Select the "use" tag inside the "button" tag with class name: recipe__love
-  document.querySelector('.recipe__love use').setAttribute('href', `img/icons.svg#${iconString}`);
+  document.querySelector('.recipe__love use').setAttribute('href', `./dist/img/icons.svg#${iconString}`);
 
 };
 
