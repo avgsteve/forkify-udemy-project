@@ -17,7 +17,7 @@ export const renderItem = (recipeObj) => {
       <p class="shopping__description">${recipeObj.ingredient}</p>
       <button class="shopping__delete btn-tiny">
           <svg>
-              <use href="img/icons.svg#icon-circle-with-cross"></use>
+              <use href="./dist/img/icons.svg#icon-circle-with-cross"></use>
           </svg>
       </button>
   </li>
